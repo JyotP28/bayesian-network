@@ -1,0 +1,359 @@
+{
+  "diseases": [
+    {
+      "disease_metadata": {
+        "disease_id": "canine_hyperadrenocorticism",
+        "official_name": "Hyperadrenocorticism",
+        "primary_species": "canine",
+        "estimated_population_base_prevalence": 0.0025,
+        "textbook_source_chapter_or_citation": "Chapter 293: THE HISTORY OF HYPERADRENOCORTICISM AND DEFINITIONS"
+      },
+      "signalment_risk_multipliers": {
+        "age_brackets": {
+          "young_adult": 1.0,
+          "mature": 2.5,
+          "senior": 2.5
+        },
+        "biological_sex_and_status": {
+          "male_intact": 1.0,
+          "male_castrated": 2.5,
+          "female_intact": 1.0,
+          "female_spayed": 2.5
+        },
+        "predisposed_breeds": {
+          "miniature_poodle": 2.5,
+          "dachshund": 2.5,
+          "terriers": 2.5,
+          "boxer": 2.5,
+          "standard_schnauzer": 2.5,
+          "default_all_other_breeds": 1.0
+        }
+      },
+      "clinical_history_and_physical_exam_symptoms": {
+        "common_tier_60_to_100_percent_occurrence": [
+          "polydipsia",
+          "polyuria",
+          "polyphagia",
+          "panting",
+          "abdominal_distention",
+          "endocrine_alopecia",
+          "hepatomegaly",
+          "muscle_weakness",
+          "systemic_hypertension",
+          "lethargy",
+          "urinary_tract_infections"
+        ],
+        "less_common_tier_20_to_59_percent_occurrence": [
+          "hyperpigmentation",
+          "comedones",
+          "thin_skin",
+          "poor_hair_regrowth",
+          "urine_leakage",
+          "insulin_resistant_diabetes_mellitus"
+        ],
+        "uncommon_or_rare_tier_1_to_19_percent_occurrence": [
+          "thromboembolism",
+          "ligament_rupture",
+          "facial_nerve_paralysis",
+          "pseudomyotonia",
+          "testicular_atrophy",
+          "persistent_anestrus",
+          "calcinosis_cutis",
+          "dull_mentation",
+          "circling",
+          "aimless_wandering",
+          "pacing",
+          "ataxia",
+          "behavior_alterations",
+          "ascites",
+          "hind_limb_paresis"
+        ]
+      },
+      "routine_laboratory_abnormalities_cbc_chem_ua": {
+        "common_tier_60_to_100_percent_occurrence": [
+          "eosinopenia",
+          "increased_alkaline_phosphatase",
+          "increased_alanine_aminotransferase",
+          "hypercholesterolemia",
+          "urine_specific_gravity_less_than_1_020",
+          "proteinuria",
+          "hypercoagulable_tendency",
+          "shorter_prothrombin_time",
+          "higher_fibrinogen",
+          "increased_thrombin_antithrombin_complexes",
+          "hyperphosphatemia"
+        ],
+        "less_common_tier_20_to_59_percent_occurrence": [
+          "thrombocytosis",
+          "lymphopenia",
+          "neutrophilia",
+          "monocytosis",
+          "decreased_blood_urea_nitrogen",
+          "mild_hyperglycemia",
+          "increased_postprandial_bile_acids",
+          "bacteriuria",
+          "decreased_total_t4",
+          "decreased_total_t3",
+          "decreased_free_t4",
+          "mild_hypernatremia",
+          "hypokalemia"
+        ],
+        "uncommon_or_rare_tier_1_to_19_percent_occurrence": [
+          "erythrocytosis",
+          "increased_preprandial_bile_acids"
+        ]
+      },
+      "specific_confirmatory_diagnostic_tests": [
+        {
+          "test_name": "low_dose_dexamethasone_suppression_test",
+          "test_sensitivity_decimal": 0.925,
+          "test_specificity_decimal": 0.585,
+          "textbook_diagnostic_criteria_summary": "Plasma cortisol is measured before, 4-, and 8-hours after IV administration of 0.01 mg/kg dexamethasone. Cortisol above laboratory cut-off (1 or 1.4 mcg/dL) at 8-hours post-dexamethasone confirms hypercortisolism. Suppression of >50% from basal at 4 or 8-hours is compatible with PDH."
+        },
+        {
+          "test_name": "urinary_cortisol_to_creatinine_ratio",
+          "test_sensitivity_decimal": 0.875,
+          "test_specificity_decimal": 0.225,
+          "textbook_diagnostic_criteria_summary": "Integrated measure of corticoid production performed on 2 consecutive morning urine samples collected at home. Useful combined with oral HDDST to diagnose and discriminate pituitary from adrenal sources."
+        },
+        {
+          "test_name": "acth_stimulation_test",
+          "test_sensitivity_decimal": 0.7,
+          "test_specificity_decimal": 0.76,
+          "textbook_diagnostic_criteria_summary": "Plasma cortisol is measured before and 1 hour after administration of synthetic ACTH (5 mcg/kg IV or IM). Screens for hypercortisolism based on excessive cortisol response but does not differentiate pituitary from adrenal dependent disease."
+        },
+        {
+          "test_name": "endogenous_acth_concentration",
+          "test_sensitivity_decimal": 0.0,
+          "test_specificity_decimal": 0.0,
+          "textbook_diagnostic_criteria_summary": "Most accurate stand-alone biochemical test for discriminating pituitary from adrenal origin in dogs with proven hypercortisolism. Low or undetectable concentrations are expected in adrenal-dependent cases. Strict handling requires chilled tubes and immediate freezing."
+        },
+        {
+          "test_name": "high_dose_dexamethasone_suppression_test",
+          "test_sensitivity_decimal": 0.0,
+          "test_specificity_decimal": 0.0,
+          "textbook_diagnostic_criteria_summary": "Used to help differentiate pituitary from adrenal hypercortisolism when LDDST demonstrates no suppression. Given as 0.1 mg/kg IV dexamethasone. >50% suppression indicates pituitary origin, but it provides differentiation in only 12% additional dogs over LDDST and is generally no longer recommended over imaging."
+        }
+      ]
+    },
+    {
+      "disease_metadata": {
+        "disease_id": "canine_diabetes_mellitus",
+        "official_name": "Diabetes Mellitus",
+        "primary_species": "canine",
+        "estimated_population_base_prevalence": 0.003,
+        "textbook_source_chapter_or_citation": "Fracassi F., Chapter 291: Diabetes Mellitus in Dogs"
+      },
+      "signalment_risk_multipliers": {
+        "instructional_note": "1.0 is baseline risk. Scale up for predispositions, scale down for low risk. All unspecified items default to 1.0.",
+        "age_brackets": {
+          "young_adult": 0.5,
+          "mature": 2.5,
+          "senior": 2.5
+        },
+        "biological_sex_and_status": {
+          "male_intact": 1.0,
+          "male_castrated": 1.0,
+          "female_intact": 2.5,
+          "female_spayed": 2.5
+        },
+        "predisposed_breeds": {
+          "instructional_note": "Extract every breed listed as predisposed into its own lowercase_snake_case key. If explicit odds ratios or relative risks are missing, map the text's qualitative language using this strict scale: 'Strongly predisposed' / 'Overrepresented' = 3.5; 'Predisposed' / 'Increased incidence' = 2.5; 'Mildly predisposed' / 'Occasional reports' = 1.5; 'Explicitly lower risk' / 'Protected' = 0.5. Always retain the default_all_other_breeds key set to 1.0.",
+          "australian_terrier": 9.39,
+          "standard_schnauzer": 5.85,
+          "miniature_schnauzer": 5.10,
+          "swedish_elkhound": 3.5,
+          "norwegian_elkhound": 3.5,
+          "bichon_frise": 3.03,
+          "spitz": 2.90,
+          "fox_terrier": 2.68,
+          "miniature_poodle": 2.49,
+          "samoyed": 2.42,
+          "cairn_terrier": 2.26,
+          "keeshond": 2.23,
+          "maltese": 1.79,
+          "toy_poodle": 1.76,
+          "lhasa_apso": 1.54,
+          "yorkshire_terrier": 1.44,
+          "english_setter": 0.60,
+          "beagle": 0.64,
+          "irish_setter": 0.67,
+          "basset_hound": 0.56,
+          "boston_terrier": 0.51,
+          "rottweiler": 0.51,
+          "doberman_pinscher": 0.49,
+          "labrador_retriever": 0.45,
+          "australian_shepherd": 0.44,
+          "cocker_spaniel": 0.35,
+          "golden_retriever": 0.28,
+          "collie": 0.21,
+          "shetland_sheepdog": 0.21,
+          "german_shepherd_dog": 0.18,
+          "default_all_other_breeds": 1.0
+        }
+      },
+      "clinical_history_and_physical_exam_symptoms": {
+        "instructional_note": "Populate with lowercase_snake_case symptom string identifiers based on text-specified occurrence frequency.",
+        "common_tier_60_to_100_percent_occurrence": [
+          "polyuria",
+          "polydipsia",
+          "polyphagia",
+          "weight_loss",
+          "cataracts",
+          "hepatomegaly"
+        ],
+        "less_common_tier_20_to_59_percent_occurrence": [
+          "lethargy",
+          "dull_haircoat",
+          "obesity",
+          "underweight",
+          "anterior_uveitis",
+          "keratoconjunctivitis_sicca"
+        ],
+        "uncommon_or_rare_tier_1_to_19_percent_occurrence": [
+          "sudden_blindness",
+          "anorexia",
+          "vomiting",
+          "weakness",
+          "hind_limb_weakness",
+          "ataxia",
+          "plantigrade_stance"
+        ]
+      },
+      "routine_laboratory_abnormalities_cbc_chem_ua": {
+        "instructional_note": "Populate with lowercase_snake_case clinicopathologic string identifiers (e.g., increased_alp, lymphopenia).",
+        "common_tier_60_to_100_percent_occurrence": [
+          "hyperglycemia",
+          "hypercholesterolemia",
+          "hypertriglyceridemia",
+          "increased_alt",
+          "increased_alp",
+          "urine_specific_gravity_gt_1_025",
+          "glycosuria"
+        ],
+        "less_common_tier_20_to_59_percent_occurrence": [
+          "ketonuria",
+          "proteinuria",
+          "bacteriuria",
+          "neutrophilic_leukocytosis",
+          "toxic_neutrophils"
+        ],
+        "uncommon_or_rare_tier_1_to_19_percent_occurrence": [
+          "metabolic_acidosis_with_increased_anion_gap"
+        ]
+      },
+      "specific_confirmatory_diagnostic_tests": [
+        {
+          "test_name": "Serum Fructosamine Concentration",
+          "test_sensitivity_decimal": 0.85,
+          "test_specificity_decimal": 0.80,
+          "textbook_diagnostic_criteria_summary": "Documentation of increased glycated proteins (fructosamine ideally slightly above the reference interval) used to confirm persistent hyperglycemia."
+        }
+      ]
+    },
+    {
+  "disease_metadata": {
+    "disease_id": "canine_hypoadrenocorticism",
+    "official_name": "Hypoadrenocorticism (Addison's disease)",
+    "primary_species": "canine",
+    "estimated_population_base_prevalence": 0.00023,
+    "textbook_source_chapter_or_citation": "Chapter 296 hypoadrenocorticism"
+  },
+  "signalment_risk_multipliers": {
+    "instructional_note": "1.0 is baseline risk. Scale up for predispositions, scale down for low risk. All unspecified items default to 1.0.",
+    "age_brackets": {
+      "young_adult": 2.5,
+      "mature": 2.5,
+      "senior": 0.5
+    },
+    "biological_sex_and_status": {
+      "male_intact": 1.0,
+      "male_castrated": 2.5,
+      "female_intact": 2.5,
+      "female_spayed": 2.5
+    },
+    "predisposed_breeds": {
+      "instructional_note": "Extract every breed listed as predisposed into its own lowercase_snake_case key. If explicit odds ratios or relative risks are missing, map the text's qualitative language using this strict scale: 'Strongly predisposed' / 'Overrepresented' = 3.5; 'Predisposed' / 'Increased incidence' = 2.5; 'Mildly predisposed' / 'Occasional reports' = 1.5; 'Explicitly lower risk' / 'Protected' = 0.5. Always retain the default_all_other_breeds key set to 1.0.",
+      "leonberger": 2.5,
+      "pomeranian": 2.5,
+      "great_dane": 2.5,
+      "standard_poodle": 2.5,
+      "bearded_collie": 2.5,
+      "portuguese_water_dog": 2.5,
+      "cocker_spaniel": 2.5,
+      "springer_spaniel": 2.5,
+      "default_all_other_breeds": 1.0
+    }
+  },
+  "clinical_history_and_physical_exam_symptoms": {
+    "instructional_note": "Populate with lowercase_snake_case symptom string identifiers based on text-specified occurrence frequency.",
+    "common_tier_60_to_100_percent_occurrence": [
+      "lethargy",
+      "weakness",
+      "depression",
+      "vomiting"
+    ],
+    "less_common_tier_20_to_59_percent_occurrence": [
+      "abdominal_pain",
+      "diarrhea",
+      "anorexia",
+      "weight_loss",
+      "polyuria",
+      "polydipsia",
+      "dehydration",
+      "hypotension"
+    ],
+    "uncommon_or_rare_tier_1_to_19_percent_occurrence": [
+      "hematemesis",
+      "melena",
+      "hematochezia",
+      "shaking",
+      "collapse",
+      "bradycardia",
+      "weak_pulses",
+      "hypovolemic_shock",
+      "seizures"
+    ]
+  },
+  "routine_laboratory_abnormalities_cbc_chem_ua": {
+    "instructional_note": "Populate with lowercase_snake_case clinicopathologic string identifiers (e.g., increased_alp, lymphopenia).",
+    "common_tier_60_to_100_percent_occurrence": [
+      "hyponatremia",
+      "hyperkalemia",
+      "azotemia",
+      "decreased_na_k_ratio_under_28",
+      "relative_lymphocytosis",
+      "relative_eosinophilia",
+      "urine_sodium_gt_30_mmol_l"
+    ],
+    "less_common_tier_20_to_59_percent_occurrence": [
+      "hypochloremia",
+      "hypercalcemia",
+      "increased_alt",
+      "increased_ast",
+      "isosthenuria",
+      "acidemia",
+      "hypoalbuminemia",
+      "hypocholesterolemia"
+    ],
+    "uncommon_or_rare_tier_1_to_19_percent_occurrence": [
+      "hypoglycemia"
+    ]
+  },
+  "specific_confirmatory_diagnostic_tests": [
+    {
+      "test_name": "ACTH Stimulation Test (ACTHst)",
+      "test_sensitivity_decimal": 0.95,
+      "test_specificity_decimal": 0.95,
+      "textbook_diagnostic_criteria_summary": "Gold standard test. Serum cortisol concentrations before and 1 hour after IV administration of 1 mcg/kg synthetic short-acting ACTH are <1 mcg/dL (<28 nmol/L)."
+    },
+    {
+      "test_name": "Basal/Resting Serum Cortisol Concentration",
+      "test_sensitivity_decimal": 0.85,
+      "test_specificity_decimal": 0.80,
+      "textbook_diagnostic_criteria_summary": "Screening assay. Basal serum cortisol concentration >2 mcg/dL (>55 nmol/L) makes HA unlikely, effectively excluding the diagnosis. Concentrations <2 mcg/dL require an ACTHst for confirmation."
+    }
+  ]
+    }
+  ]
+}

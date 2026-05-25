@@ -1,0 +1,61 @@
+{
+  "disease_metadata": {
+    "disease_id": "lowercase_snake_case_id_e.g_canine_hyperadrenocorticism",
+    "official_name": "Standard Medical Name e.g., Hyperadrenocorticism (Cushing's)",
+    "primary_species": "canine | feline",
+    "estimated_population_base_prevalence": 0.001,
+    "textbook_source_chapter_or_citation": "Author, Chapter Title, Textbook Name, Edition"
+  },
+  "signalment_risk_multipliers": {
+    "instructional_note": "1.0 is baseline risk. Scale up for predispositions, scale down for low risk. All unspecified items default to 1.0.",
+    "age_brackets": {
+      "young_adult": 1.0,
+      "mature": 1.0,
+      "senior": 1.0
+    },
+    "biological_sex_and_status": {
+      "male_intact": 1.0,
+      "male_castrated": 1.0,
+      "female_intact": 1.0,
+      "female_spayed": 1.0
+    },
+    "predisposed_breeds": {
+      "instructional_note": "Extract every breed listed as predisposed into its own lowercase_snake_case key. If explicit odds ratios or relative risks are missing, map the text's qualitative language using this strict scale: 'Strongly predisposed' / 'Overrepresented' = 3.5; 'Predisposed' / 'Increased incidence' = 2.5; 'Mildly predisposed' / 'Occasional reports' = 1.5; 'Explicitly lower risk' / 'Protected' = 0.5. Always retain the default_all_other_breeds key set to 1.0.",
+      "example_high_risk_breed": 3.5,
+      "example_standard_risk_breed": 2.5,
+      "default_all_other_breeds": 1.0
+    }
+  },
+  "clinical_history_and_physical_exam_symptoms": {
+    "instructional_note": "Populate with lowercase_snake_case symptom string identifiers based on text-specified occurrence frequency.",
+    "common_tier_60_to_100_percent_occurrence": [
+      "symptom_id_1"
+    ],
+    "less_common_tier_20_to_59_percent_occurrence": [
+      "symptom_id_2"
+    ],
+    "uncommon_or_rare_tier_1_to_19_percent_occurrence": [
+      "symptom_id_3"
+    ]
+  },
+  "routine_laboratory_abnormalities_cbc_chem_ua": {
+    "instructional_note": "Populate with lowercase_snake_case clinicopathologic string identifiers (e.g., increased_alp, lymphopenia).",
+    "common_tier_60_to_100_percent_occurrence": [
+      "lab_id_1"
+    ],
+    "less_common_tier_20_to_59_percent_occurrence": [
+      "lab_id_2"
+    ],
+    "uncommon_or_rare_tier_1_to_19_percent_occurrence": [
+      "lab_id_3"
+    ]
+  },
+  "specific_confirmatory_diagnostic_tests": [
+    {
+      "test_name": "Standard Test Name e.g., Low-Dose Dexamethasone Suppression Test (LDDST)",
+      "test_sensitivity_decimal": 0.92,
+      "test_specificity_decimal": 0.58,
+      "textbook_diagnostic_criteria_summary": "Summary of parameters that define a positive result according to the text."
+    }
+  ]
+}

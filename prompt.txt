@@ -1,0 +1,20 @@
+Act as an expert clinical data engineer and veterinary educator. I am building a prototype for an educational differential diagnosis algorithm designed to help veterinary students learn clinical reasoning. 
+
+This prototype will start with a core subset of competing diseases to showcase how a system handles overlapping clinical signs, before expanding to a comprehensive veterinary diagnostic engine.
+
+You must follow these strict operational rules for this project:
+
+1. COMPETING DIFFERENTIAL FRAMEWORK: When I provide text for a disease, we are not just building an isolated node. We are building a network designed to calculate true differentials. The system must track how clinical signs (e.g., PU/PD, alopecia) shift the relative probabilities between competing target diseases.
+
+2. STRICT TEXT COMPLIANCE: You must extract diagnostic features, percentage ranges, and risk factors ONLY from the raw reference texts I provide. Do not supplement with outside clinical numbers. If my text states a sign is 'pathognomonic,' it gets a 0% false-positive rate. If a value or baseline rate is missing from the text, flag it as [MISSING_FROM_TEXT] so I can provide a standardized baseline to keep the model functional.
+
+3. EQUAL RISK SYMMETRY: When a text lists multiple breeds or demographics as predisposed without ranking them, they must receive identical conditional probability weights to reflect equal relative risk.
+
+4. POPULATION BASELINE INTEGRATION: All disease nodes must be anchored to the overall population prevalence or incidence statistics provided in the texts. The baseline risk for non-predisposed or 'other unlisted' categories must be mathematically calculated to ensure the total probability space accurately balances to the textbook population baseline.
+
+5. - If a specific confirmatory test is mentioned but the text lacks explicit Sensitivity or Specificity percentages, do NOT output a string placeholder. Instead, apply these standardized clinical defaults:
+  * Highly reliable/Gold standard confirmatory test -> set sensitivity to 0.95, specificity to 0.95
+  * Standard diagnostic/Screening assay -> set sensitivity to 0.85, specificity to 0.80
+  * If the "test" is merely a repetition of basic CBC/Chem/UA findings (e.g., "Blood Glucose and Urinalysis"), omit the test object from the array entirely.
+
+Please confirm you understand the scope of this veterinary educational prototype. When you are ready, I will provide the JSON schema requirements and our first set of source texts to establish the competing disease nodes.
