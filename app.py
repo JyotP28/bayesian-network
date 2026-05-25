@@ -125,7 +125,7 @@ def render_results(results):
             
             st.progress(int(match_pct) if match_pct <= 100 else 100)
             
-            # --- NEW MATHEMATICAL TRACE UI ---
+            # --- UPDATED MATHEMATICAL TRACE UI ---
             st.markdown("---")
             with st.expander("🧮 View Mathematical Trace"):
                 trace = diff["math_trace"]
@@ -138,14 +138,16 @@ def render_results(results):
                 st.caption("Probabilities are converted to natural logs and summed to prevent floating-point underflow, then exponentiated back.")
                 
                 for f in trace["findings"]:
-                    st.write(f"- **{f['name']}** ({f['tier']}): $P = {f['prob']} \rightarrow \ln(P) = {f['log_prob']:.4f}$")
+                    st.write(f"• **{f['name']}** ({f['tier']}): $P = {f['prob']} \\rightarrow \\ln(P) = {f['log_prob']:.4f}$")
                 
-                st.latex(rf"\sum \ln(P) = {trace['log_likelihood']:.4f} \implies e^{{{trace['log_likelihood']:.4f}}} = {trace['likelihood']:.2e}")
+                st.write("") 
+                st.latex(rf"\sum \ln(P) = {trace['log_likelihood']:.4f} \implies e^{{{trace['log_likelihood']:.4f}}} = {trace['likelihood']:.4e}")
                 
                 st.markdown("#### 3. Raw Score & Posterior Normalization")
                 st.caption("The Raw Score is normalized against the sum of all Raw Scores in the system to calculate the final % match.")
-                st.latex(rf"\text{{Raw Score}} = \text{{Prior}} \times \text{{Likelihood}} = {trace['raw_score']:.2e}")
-                st.latex(rf"\text{{Posterior}} = \frac{{\text{{Raw Score}}}}{{\text{{Sum of All Raw Scores}} ({trace['total_weight']:.2e})}} \approx {diff['posterior_probability']}")
+                
+                st.latex(rf"\text{{Raw Score}} = \text{{Prior}} \times \text{{Likelihood}} = {trace['raw_score']:.4e}")
+                st.latex(rf"\text{{Posterior}} = \frac{{\text{{Raw Score}}}}{{\text{{Sum of All Raw Scores}} ({trace['total_weight']:.4e})}} = {match_pct / 100:.4f} \approx {diff['posterior_probability']}")
 
 with tab1:
     st.markdown("Paste raw clinical notes, lab results, or textbook cases here.")
