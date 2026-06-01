@@ -200,7 +200,8 @@
           "polyphagia",
           "weight_loss",
           "cataracts",
-          "hepatomegaly"
+          "hepatomegaly",
+          "dehydration"
         ],
         "less_common_tier_20_to_59_percent_occurrence": [
           "lethargy",
@@ -352,6 +353,307 @@
       "test_sensitivity_decimal": 0.85,
       "test_specificity_decimal": 0.80,
       "textbook_diagnostic_criteria_summary": "Screening assay. Basal serum cortisol concentration >2 mcg/dL (>55 nmol/L) makes HA unlikely, effectively excluding the diagnosis. Concentrations <2 mcg/dL require an ACTHst for confirmation."
+    }
+  ]
+    },
+    {
+  "disease_metadata": {
+    "disease_id": "chronic_kidney_disease",
+    "official_name": "Chronic Kidney Disease (CKD)",
+    "primary_species": "canine | feline",
+    "estimated_population_base_prevalence": 0.0075,
+    "textbook_source_chapter_or_citation": "Jessica M. Quimby, Chapter 301: Chronic Kidney Disease"
+  },
+  "signalment_risk_multipliers": {
+    "instructional_note": "1.0 is baseline risk. Scale up for predispositions, scale down for low risk. All unspecified items default to 1.0.",
+    "age_brackets": {
+      "young_adult": 1.0,
+      "mature": 1.0,
+      "senior": 5.5
+    },
+    "biological_sex_and_status": {
+      "male_intact": 1.0,
+      "male_castrated": 1.0,
+      "female_intact": 1.0,
+      "female_spayed": 1.0
+    },
+    "predisposed_breeds": {
+      "instructional_note": "Extract every breed listed as predisposed into its own lowercase_snake_case key. If explicit odds ratios or relative risks are missing, map the text's qualitative language using this strict scale: 'Strongly predisposed' / 'Overrepresented' = 3.5; 'Predisposed' / 'Increased incidence' = 2.5; 'Mildly predisposed' / 'Occasional reports' = 1.5; 'Explicitly lower risk' / 'Protected' = 0.5. Always retain the default_all_other_breeds key set to 1.0.",
+      "default_all_other_breeds": 1.0
+    }
+  },
+  "clinical_history_and_physical_exam_symptoms": {
+    "instructional_note": "Populate with lowercase_snake_case symptom string identifiers based on text-specified occurrence frequency.",
+    "common_tier_60_to_100_percent_occurrence": [
+      "polyuria",
+      "polydipsia",
+      "weight_loss",
+      "dehydration",
+      "poor_muscle_mass"
+    ],
+    "less_common_tier_20_to_59_percent_occurrence": [
+      "abnormal_appetite",
+      "lethargy",
+      "nausea",
+      "vomiting",
+      "constipation"
+    ],
+    "uncommon_or_rare_tier_1_to_19_percent_occurrence": [
+      "cervical_ventroflexion",
+      "plantigrade_stance",
+      "blindness",
+      "seizures",
+      "hyphema"
+    ]
+  },
+  "routine_laboratory_abnormalities_cbc_chem_ua": {
+    "instructional_note": "Populate with lowercase_snake_case clinicopathologic string identifiers (e.g., increased_alp, lymphopenia).",
+    "common_tier_60_to_100_percent_occurrence": [
+      "azotemia",
+      "decreased_urine_specific_gravity",
+      "nonregenerative_anemia"
+    ],
+    "less_common_tier_20_to_59_percent_occurrence": [
+      "hyperphosphatemia",
+      "proteinuria",
+      "hypokalemia",
+      "hypercalcemia",
+      "metabolic_acidosis"
+    ],
+    "uncommon_or_rare_tier_1_to_19_percent_occurrence": [
+      "hypocalcemia",
+      "hyperkalemia",
+      "hypomagnesemia"
+    ]
+  },
+  "specific_confirmatory_diagnostic_tests": [
+    {
+      "test_name": "Symmetric Dimethylarginine (SDMA)",
+      "test_sensitivity_decimal": 0.85,
+      "test_specificity_decimal": 0.80,
+      "textbook_diagnostic_criteria_summary": "Utilized for early detection and to modify IRIS CKD staging in dogs and cats, particularly when body muscle mass is markedly reduced."
+    },
+    {
+      "test_name": "Renal Biopsy",
+      "test_sensitivity_decimal": 0.95,
+      "test_specificity_decimal": 0.95,
+      "textbook_diagnostic_criteria_summary": "Necessary for definitive diagnosis of glomerular disease etiology (e.g., immune-complex mediated glomerular nephritis) to determine appropriate therapy and assess prognosis."
+    }
+  ]
+    },
+    {
+  "disease_metadata": {
+    "disease_id": "cystic_endometrial_hyperplasia_pyometra_complex",
+    "official_name": "Pyometra",
+    "primary_species": "canine | feline",
+    "estimated_population_base_prevalence": 0.0199,
+    "textbook_source_chapter_or_citation": "Hollinshead & Krekeler, Pyometra, Blackwell's Five-Minute Veterinary Consult: Canine and Feline, Seventh Edition"
+  },
+  "signalment_risk_multipliers": {
+    "instructional_note": "1.0 is baseline risk. Scale up for predispositions, scale down for low risk. All unspecified items default to 1.0.",
+    "age_brackets": {
+      "young_adult": 1.0,
+      "mature": 2.5,
+      "senior": 2.5
+    },
+    "biological_sex_and_status": {
+      "male_intact": 0.0,
+      "male_castrated": 0.0,
+      "female_intact": 3.5,
+      "female_spayed": 0.5
+    },
+    "predisposed_breeds": {
+      "instructional_note": "Extract every breed listed as predisposed into its own lowercase_snake_case key. If explicit odds ratios or relative risks are missing, map the text's qualitative language using this strict scale: 'Strongly predisposed' / 'Overrepresented' = 3.5; 'Predisposed' / 'Increased incidence' = 2.5; 'Mildly predisposed' / 'Occasional reports' = 1.5; 'Explicitly lower risk' / 'Protected' = 0.5. Always retain the default_all_other_breeds key set to 1.0.",
+      "bernese_mountain_dog": 2.5,
+      "rottweiler": 2.5,
+      "rough_coated_collie": 2.5,
+      "oriental_cat_breeds": 2.5,
+      "default_all_other_breeds": 1.0
+    }
+  },
+  "clinical_history_and_physical_exam_symptoms": {
+    "instructional_note": "Populate with lowercase_snake_case symptom string identifiers based on text-specified occurrence frequency.",
+    "common_tier_60_to_100_percent_occurrence": [
+      "purulent_vaginal_discharge",
+      "lethargy",
+      "polyuria",
+      "polydipsia"
+    ],
+    "less_common_tier_20_to_59_percent_occurrence": [
+      "inappetence_anorexia",
+      "vomiting",
+      "abdominal_distension",
+      "pyrexia"
+    ],
+    "uncommon_or_rare_tier_1_to_19_percent_occurrence": [
+      "dehydration",
+      "shock"
+    ]
+  },
+  "routine_laboratory_abnormalities_cbc_chem_ua": {
+    "instructional_note": "Populate with lowercase_snake_case clinicopathologic string identifiers (e.g., increased_alp, lymphopenia).",
+    "common_tier_60_to_100_percent_occurrence": [
+      "neutrophilia_with_left_shift",
+      "normocytic_normochromic_anemia"
+    ],
+    "less_common_tier_20_to_59_percent_occurrence": [
+      "hyperglobulinemia",
+      "hyperproteinemia",
+      "azotemia",
+      "elevated_alt",
+      "elevated_alp",
+      "isosthenuria"
+    ],
+    "uncommon_or_rare_tier_1_to_19_percent_occurrence": [
+      "neutropenia",
+      "hypoalbuminemia",
+      "glucosuria",
+      "proteinuria",
+      "bacteriuria"
+    ]
+  },
+  "specific_confirmatory_diagnostic_tests": [
+    {
+      "test_name": "Abdominal Ultrasonography",
+      "test_sensitivity_decimal": 0.95,
+      "test_specificity_decimal": 0.95,
+      "textbook_diagnostic_criteria_summary": "Uterine horns distended with intraluminal fluid, with or without flocculation. Uterine wall thickened with irregular edges and small hypoechoic areas consistent with cystic change (CEH)."
+    },
+    {
+      "test_name": "Abdominal Radiography",
+      "test_sensitivity_decimal": 0.85,
+      "test_specificity_decimal": 0.80,
+      "textbook_diagnostic_criteria_summary": "Enlarged, distended uterus."
+    },
+    {
+      "test_name": "Vaginoscopy",
+      "test_sensitivity_decimal": 0.85,
+      "test_specificity_decimal": 0.80,
+      "textbook_diagnostic_criteria_summary": "Allows determination of site of origin of purulent vulvar discharge in dogs with no apparent uterine enlargement; not possible in cats."
+    }
+  ]
+    },
+    {
+  "disease_metadata": {
+    "disease_id": "canine_gastric_dilation_and_volvulus_syndrome",
+    "official_name": "Gastric Dilation and Volvulus Syndrome (GDV)",
+    "primary_species": "canine",
+    "estimated_population_base_prevalence": 0.0023,
+    "textbook_source_chapter_or_citation": "Mehler S (Author), Rondeau MP (Consulting Editor), Gastric Dilation and Volvulus Syndrome; plus supplementary text"
+  },
+  "signalment_risk_multipliers": {
+    "instructional_note": "1.0 is baseline risk. Scale up for predispositions, scale down for low risk. All unspecified items default to 1.0.",
+    "age_brackets": {
+      "young_adult": 1.0,
+      "mature": 2.5,
+      "senior": 2.5
+    },
+    "biological_sex_and_status": {
+      "male_intact": 2.5,
+      "male_castrated": 2.5,
+      "female_intact": 1.0,
+      "female_spayed": 1.0
+    },
+    "predisposed_breeds": {
+      "instructional_note": "Extract every breed listed as predisposed into its own lowercase_snake_case key. If explicit odds ratios or relative risks are missing, map the text's qualitative language using this strict scale: 'Strongly predisposed' / 'Overrepresented' = 3.5; 'Predisposed' / 'Increased incidence' = 2.5; 'Mildly predisposed' / 'Occasional reports' = 1.5; 'Explicitly lower risk' / 'Protected' = 0.5. Always retain the default_all_other_breeds key set to 1.0.",
+      "german_shepherd_dog": 2.5,
+      "great_dane": 2.5,
+      "standard_poodle": 2.5,
+      "labrador_retriever": 2.5,
+      "golden_retriever": 2.5,
+      "irish_setter": 2.5,
+      "akita": 2.5,
+      "saint_bernard": 2.5,
+      "doberman_pinscher": 2.5,
+      "chow_chow": 2.5,
+      "collie": 2.5,
+      "rottweiler": 2.5,
+      "mastiff": 2.5,
+      "weimaraner": 2.5,
+      "bloodhound": 2.5,
+      "basset_hound": 2.5,
+      "belgian_shepherd": 2.5,
+      "great_pyrenees": 2.5,
+      "boxer": 2.5,
+      "husky": 2.5,
+      "german_shorthaired_pointer": 2.5,
+      "samoyed": 2.5,
+      "newfoundland": 2.5,
+      "bernese_mountain_dog": 2.5,
+      "dachshund": 1.5,
+      "corgi": 1.5,
+      "pekingese": 1.5,
+      "default_all_other_breeds": 1.0
+    }
+  },
+  "clinical_history_and_physical_exam_symptoms": {
+    "instructional_note": "Populate with lowercase_snake_case symptom string identifiers based on text-specified occurrence frequency.",
+    "common_tier_60_to_100_percent_occurrence": [
+      "restlessness",
+      "anxiety",
+      "vomiting",
+      "nonproductive_retching",
+      "abdominal_distension",
+      "tympanic_abdomen",
+      "abdominal_pain",
+      "ptyalism",
+      "weakness",
+      "lethargy",
+      "collapse",
+      "tachycardia",
+      "tachypnea",
+      "dyspnea",
+      "weak_pulses",
+      "cardiac_arrhythmias"
+    ],
+    "less_common_tier_20_to_59_percent_occurrence": [
+      "pale_mucous_membranes",
+      "hyperemic_mucous_membranes",
+      "prolonged_capillary_refill_time",
+      "bradycardia",
+      "depression",
+      "hypothermia",
+      "hyperthermia"
+    ],
+    "uncommon_or_rare_tier_1_to_19_percent_occurrence": []
+  },
+  "routine_laboratory_abnormalities_cbc_chem_ua": {
+    "instructional_note": "Populate with lowercase_snake_case clinicopathologic string identifiers (e.g., increased_alp, lymphopenia).",
+    "common_tier_60_to_100_percent_occurrence": [
+      "stress_leukogram",
+      "hemoconcentration",
+      "electrolyte_abnormalities",
+      "increased_liver_enzymes",
+      "azotemia",
+      "increased_urine_specific_gravity",
+      "hyperlactatemia"
+    ],
+    "less_common_tier_20_to_59_percent_occurrence": [
+      "thrombocytopenia",
+      "isosthenuria",
+      "metabolic_acidosis",
+      "metabolic_alkalosis",
+      "hypokalemia",
+      "prolonged_coagulation_times",
+      "increased_d_dimers",
+      "increased_fibrinogen_degradation_products",
+      "increased_serum_myoglobin",
+      "increased_c_reactive_protein"
+    ],
+    "uncommon_or_rare_tier_1_to_19_percent_occurrence": []
+  },
+  "specific_confirmatory_diagnostic_tests": [
+    {
+      "test_name": "Right Lateral Abdominal Radiograph",
+      "test_sensitivity_decimal": 0.95,
+      "test_specificity_decimal": 1.0,
+      "textbook_diagnostic_criteria_summary": "Pyloric malposition with gastric air entrapment ('Popeye arm', 'double bubble'). Shows the classic compartmentalization of the stomach, which is pathognomonic. May also show gas bubbles within the gastric wall indicating necrosis, or pneumoperitoneum."
+    },
+    {
+      "test_name": "Abdominal Ultrasound",
+      "test_sensitivity_decimal": 0.85,
+      "test_specificity_decimal": 0.80,
+      "textbook_diagnostic_criteria_summary": "Helpful to confirm diagnosis in subsets of patients with organoaxial volvulus (normal positioned stomach with gastric dilatation). Can also identify abdominal effusion or air from hemoabdomen or perforation."
     }
   ]
     }

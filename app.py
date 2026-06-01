@@ -1,6 +1,8 @@
 import streamlit as st
+import pandas as pd
 import json
 import os
+import altair as alt
 import google.generativeai as genai
 from engine import VetBayesianEngine
 
@@ -38,6 +40,14 @@ for d in data.get("diseases", []):
 all_findings = sorted(list(all_findings))
 all_breeds = sorted(list(all_breeds))
 
+# --- SESSION STATE INITIALIZATION ---
+if "active_signalment" not in st.session_state:
+    st.session_state.active_signalment = None
+if "active_findings" not in st.session_state:
+    st.session_state.active_findings = None
+if "active_results" not in st.session_state:
+    st.session_state.active_results = None
+
 # --- LIVE GEMINI API FUNCTION ---
 def extract_case_with_ai(case_text, allowed_breeds, allowed_findings):
     if not api_key:
@@ -70,7 +80,8 @@ def extract_case_with_ai(case_text, allowed_breeds, allowed_findings):
     }}
     """
 
-    generation_config = {"response_mime_type": "application/json"}
+    generation_config = {"response_mime_type": "application/json", "temperature": 0.0}
+    # Note: If your environment uses google.genai, update the call syntax below accordingly.
     model = genai.GenerativeModel('gemini-3.1-flash-lite', generation_config=generation_config)
     
     try:
@@ -80,9 +91,7 @@ def extract_case_with_ai(case_text, allowed_breeds, allowed_findings):
         st.error(f"Failed to parse with Gemini: {e}")
         st.stop()
 
-# --- UI LAYOUT ---
-tab1, tab2 = st.tabs(["📝 AI Case Parser (Paste Text)", "🎛️ Manual Entry"])
-
+# --- UI RENDER HELPER ---
 def render_results(results):
     st.subheader("Ranked Differentials & Clinical Reasoning")
     for diff in results:
@@ -125,14 +134,17 @@ def render_results(results):
             
             st.progress(int(match_pct) if match_pct <= 100 else 100)
             
-            # --- UPDATED MATHEMATICAL TRACE UI ---
             st.markdown("---")
             with st.expander("🧮 View Mathematical Trace"):
                 trace = diff["math_trace"]
                 
                 st.markdown("#### 1. Adjusted Prior Probability")
                 st.caption("Base prevalence multiplied by signalment risk factors.")
-                st.latex(rf"\text{{Prior}} = {trace['base_prevalence']} \times {trace['age_mult']} \text{{ (Age)}} \times {trace['sex_mult']} \text{{ (Sex)}} \times {trace['breed_mult']} \text{{ (Breed)}} = {trace['adjusted_prior']:.6f}")
+                # Protect against strings rendering in LaTeX math formats
+                if isinstance(trace['base_prevalence'], str):
+                    st.latex(rf"\text{{Prior}} = 1.0 \times {trace['age_mult']} \text{{ (Age)}} \times {trace['sex_mult']} \text{{ (Sex)}} \times {trace['breed_mult']} \text{{ (Breed)}} = {trace['adjusted_prior']:.6f}")
+                else:
+                    st.latex(rf"\text{{Prior}} = {trace['base_prevalence']} \times {trace['age_mult']} \text{{ (Age)}} \times {trace['sex_mult']} \text{{ (Sex)}} \times {trace['breed_mult']} \text{{ (Breed)}} = {trace['adjusted_prior']:.6f}")
                 
                 st.markdown("#### 2. Likelihood (Log Sum Method)")
                 st.caption("Probabilities are converted to natural logs and summed to prevent floating-point underflow, then exponentiated back.")
@@ -149,20 +161,29 @@ def render_results(results):
                 st.latex(rf"\text{{Raw Score}} = \text{{Prior}} \times \text{{Likelihood}} = {trace['raw_score']:.4e}")
                 st.latex(rf"\text{{Posterior}} = \frac{{\text{{Raw Score}}}}{{\text{{Sum of All Raw Scores}} ({trace['total_weight']:.4e})}} = {match_pct / 100:.4f} \approx {diff['posterior_probability']}")
 
+# --- UI TABS ---
+tab1, tab2, tab3 = st.tabs(["📝 AI Case Parser", "🎛️ Manual Entry", "📈 Bayesian Trajectory"])
+
 with tab1:
     st.markdown("Paste raw clinical notes, lab results, or textbook cases here.")
     case_text = st.text_area("Raw Case Input", height=200, placeholder="CASE 1\nSignalment: 10 yr old, CM, Miniature poodle\nHistory: Presented for teeth cleaning...\nAbnormalities: WBC 18.1, ALP 578...")
     
-    if st.button("Parse & Run Diagnostics", type="primary"):
-        with st.spinner("Gemini 3.1 Flash-Lite is translating clinical text..."):
+    if st.button("Parse & Run Diagnostics", type="primary", key="parse_btn"):
+        with st.spinner("Translating clinical text..."):
             parsed_data = extract_case_with_ai(case_text, all_breeds, all_findings)
             
         st.success("Case successfully translated into structured data!")
         with st.expander("View extracted JSON data"):
             st.json(parsed_data)
         
-        results = engine.calculate_differentials(parsed_data["signalment"], parsed_data["observed_findings"])
-        render_results(results)
+        st.session_state.active_signalment = parsed_data["signalment"]
+        st.session_state.active_findings = parsed_data["observed_findings"]
+        st.session_state.active_results = engine.calculate_differentials(
+            st.session_state.active_signalment, 
+            st.session_state.active_findings
+        )
+        
+        render_results(st.session_state.active_results)
 
 with tab2:
     st.markdown("Use this tab to manually toggle specific symptoms and test the engine.")
@@ -175,10 +196,49 @@ with tab2:
         selected_findings = st.multiselect("Active Findings", all_findings)
         
     with col2:
-        if st.button("Run Manual Inference", type="primary"):
+        if st.button("Run Manual Inference", type="primary", key="manual_btn"):
             if not selected_findings:
                 st.warning("Please select at least one finding.")
             else:
-                signalment = {"age": age, "sex": sex, "breed": breed}
-                results = engine.calculate_differentials(signalment, selected_findings)
-                render_results(results)
+                st.session_state.active_signalment = {"age": age, "sex": sex, "breed": breed}
+                st.session_state.active_findings = selected_findings
+                st.session_state.active_results = engine.calculate_differentials(
+                    st.session_state.active_signalment, 
+                    st.session_state.active_findings
+                )
+                
+                render_results(st.session_state.active_results)
+
+with tab3:
+    st.header("📈 Clinical Reasoning Trajectory")
+    st.markdown("Watch the Bayesian network update its confidence sequentially as each clinical sign is evaluated. This mimics the cognitive shift a clinician experiences as new data arrives.")
+    
+    if st.session_state.active_findings is None:
+        st.info("Run a case in the AI Parser or Manual Entry tab to view the diagnostic trajectory.")
+    else:
+        # Fetch the sequential data
+        trajectory_data = engine.get_trajectory_data(
+            st.session_state.active_signalment, 
+            st.session_state.active_findings
+        )
+        
+        # 1. Convert to Pandas DataFrame
+        df = pd.DataFrame(trajectory_data)
+        
+        # 2. "Melt" the dataframe into a long format so Altair can plot multiple lines easily
+        df_melted = df.melt(id_vars=["Step"], var_name="Disease", value_name="Probability")
+        
+        # 3. Build a custom Altair chart
+        chart = alt.Chart(df_melted).mark_line(point=True).encode(
+            # sort=None is the magic command that forces chronological order
+            x=alt.X('Step:N', sort=None, title='Sequential Clinical Findings'), 
+            y=alt.Y('Probability:Q', title='Posterior Probability (%)'),
+            color=alt.Color('Disease:N', legend=alt.Legend(title=None, orient="bottom")),
+            # Add interactive hover tooltips for better educational use
+            tooltip=['Step', 'Disease', alt.Tooltip('Probability:Q', format='.2f')]
+        ).properties(
+            height=500
+        ).interactive()
+        
+        # 4. Render the upgraded chart
+        st.altair_chart(chart, use_container_width=True)
