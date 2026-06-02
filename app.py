@@ -7,13 +7,15 @@ import google.generativeai as genai
 from engine import VetBayesianEngine
 
 st.set_page_config(page_title="Vet Diagnostic Simulator", layout="wide")
-st.title("🩺 Veterinary Bayesian Diagnostic Simulator")
+st.title("Veterinary Bayesian Diagnostic Simulator")
 
-# --- SIDEBAR: API KEY CONFIG ---
-st.sidebar.header("Configuration")
-api_key = st.sidebar.text_input("Enter Gemini API Key", type="password")
-if api_key:
+# --- CONFIGURE GEMINI API ---
+try:
+    api_key = st.secrets["GEMINI_API_KEY"]
     genai.configure(api_key=api_key)
+except KeyError:
+    st.error("Missing API Key. Please add GEMINI_API_KEY to your .streamlit/secrets.toml file.")
+    st.stop()
 
 # --- LOAD DATA & ENGINE ---
 @st.cache_data
@@ -81,7 +83,6 @@ def extract_case_with_ai(case_text, allowed_breeds, allowed_findings):
     """
 
     generation_config = {"response_mime_type": "application/json", "temperature": 0.0}
-    # Note: If your environment uses google.genai, update the call syntax below accordingly.
     model = genai.GenerativeModel('gemini-3.1-flash-lite', generation_config=generation_config)
     
     try:
@@ -96,28 +97,27 @@ def render_results(results):
     st.subheader("Ranked Differentials & Clinical Reasoning")
     for diff in results:
         match_pct = float(diff['posterior_probability'].replace('%', ''))
-        color = "green" if match_pct > 75 else "orange" if match_pct > 20 else "red"
         
-        with st.expander(f"📊 {diff['name']} — Match: {diff['posterior_probability']} (Pre-test Baseline: {diff['pre_test_probability']})"):
+        with st.expander(f"{diff['name']} -- Match: {diff['posterior_probability']} (Pre-test Baseline: {diff['pre_test_probability']})"):
             
             c1, c2 = st.columns(2)
             with c1:
-                st.markdown("### 👍 Supporting Evidence")
+                st.markdown("### Supporting Evidence")
                 if diff["drivers"]:
                     st.markdown("\n".join(diff["drivers"]))
                 else:
                     st.write("*No supporting findings observed.*")
                 
                 st.markdown("---")
-                st.markdown("### 🔬 Recommended Next Steps")
+                st.markdown("### Recommended Next Steps")
                 if diff["next_steps"]:
                     for step in diff["next_steps"]:
-                        st.markdown(f"• {step}")
+                        st.markdown(f"* {step}")
                 else:
                     st.write("*No specific confirmatory tests listed.*")
                     
             with c2:
-                st.markdown("### ⚠️ Missing Classic Signs")
+                st.markdown("### Missing Classic Signs")
                 st.caption("Hallmark signs of this disease that are ABSENT in this patient.")
                 if diff["missing_hallmarks"]:
                     st.markdown("\n".join(diff["missing_hallmarks"]))
@@ -125,7 +125,7 @@ def render_results(results):
                     st.write("*Patient has all expected hallmark signs.*")
 
                 st.markdown("---")
-                st.markdown("### ❌ Uncharacteristic Findings")
+                st.markdown("### Uncharacteristic Findings")
                 st.caption("Active findings in this patient that DO NOT fit this disease profile.")
                 if diff["penalties"]:
                     st.markdown("\n".join(diff["penalties"]))
@@ -135,12 +135,12 @@ def render_results(results):
             st.progress(int(match_pct) if match_pct <= 100 else 100)
             
             st.markdown("---")
-            with st.expander("🧮 View Mathematical Trace"):
+            with st.expander("View Mathematical Trace"):
                 trace = diff["math_trace"]
                 
                 st.markdown("#### 1. Adjusted Prior Probability")
                 st.caption("Base prevalence multiplied by signalment risk factors.")
-                # Protect against strings rendering in LaTeX math formats
+                
                 if isinstance(trace['base_prevalence'], str):
                     st.latex(rf"\text{{Prior}} = 1.0 \times {trace['age_mult']} \text{{ (Age)}} \times {trace['sex_mult']} \text{{ (Sex)}} \times {trace['breed_mult']} \text{{ (Breed)}} = {trace['adjusted_prior']:.6f}")
                 else:
@@ -150,7 +150,7 @@ def render_results(results):
                 st.caption("Probabilities are converted to natural logs and summed to prevent floating-point underflow, then exponentiated back.")
                 
                 for f in trace["findings"]:
-                    st.write(f"• **{f['name']}** ({f['tier']}): $P = {f['prob']} \\rightarrow \\ln(P) = {f['log_prob']:.4f}$")
+                    st.write(f"* **{f['name']}** ({f['tier']}): $P = {f['prob']} \\rightarrow \\ln(P) = {f['log_prob']:.4f}$")
                 
                 st.write("") 
                 st.latex(rf"\sum \ln(P) = {trace['log_likelihood']:.4f} \implies e^{{{trace['log_likelihood']:.4f}}} = {trace['likelihood']:.4e}")
@@ -162,7 +162,7 @@ def render_results(results):
                 st.latex(rf"\text{{Posterior}} = \frac{{\text{{Raw Score}}}}{{\text{{Sum of All Raw Scores}} ({trace['total_weight']:.4e})}} = {match_pct / 100:.4f} \approx {diff['posterior_probability']}")
 
 # --- UI TABS ---
-tab1, tab2, tab3 = st.tabs(["📝 AI Case Parser", "🎛️ Manual Entry", "📈 Bayesian Trajectory"])
+tab1, tab2, tab3 = st.tabs(["AI Case Parser", "Bayesian Trajectory", "Database Browser"])
 
 with tab1:
     st.markdown("Paste raw clinical notes, lab results, or textbook cases here.")
@@ -172,7 +172,7 @@ with tab1:
         with st.spinner("Translating clinical text..."):
             parsed_data = extract_case_with_ai(case_text, all_breeds, all_findings)
             
-        st.success("Case successfully translated into structured data!")
+        st.success("Case successfully translated into structured data.")
         with st.expander("View extracted JSON data"):
             st.json(parsed_data)
         
@@ -186,59 +186,118 @@ with tab1:
         render_results(st.session_state.active_results)
 
 with tab2:
-    st.markdown("Use this tab to manually toggle specific symptoms and test the engine.")
-    
-    col1, col2 = st.columns([1, 2])
-    with col1:
-        age = st.selectbox("Age Bracket", ["young_adult", "mature", "senior"])
-        sex = st.selectbox("Biological Sex", ["male_intact", "male_castrated", "female_intact", "female_spayed"])
-        breed = st.selectbox("Breed", ["default_all_other_breeds"] + all_breeds)
-        selected_findings = st.multiselect("Active Findings", all_findings)
-        
-    with col2:
-        if st.button("Run Manual Inference", type="primary", key="manual_btn"):
-            if not selected_findings:
-                st.warning("Please select at least one finding.")
-            else:
-                st.session_state.active_signalment = {"age": age, "sex": sex, "breed": breed}
-                st.session_state.active_findings = selected_findings
-                st.session_state.active_results = engine.calculate_differentials(
-                    st.session_state.active_signalment, 
-                    st.session_state.active_findings
-                )
-                
-                render_results(st.session_state.active_results)
-
-with tab3:
-    st.header("📈 Clinical Reasoning Trajectory")
+    st.header("Clinical Reasoning Trajectory")
     st.markdown("Watch the Bayesian network update its confidence sequentially as each clinical sign is evaluated. This mimics the cognitive shift a clinician experiences as new data arrives.")
     
     if st.session_state.active_findings is None:
-        st.info("Run a case in the AI Parser or Manual Entry tab to view the diagnostic trajectory.")
+        st.info("Run a case in the AI Parser tab to view the diagnostic trajectory.")
     else:
-        # Fetch the sequential data
         trajectory_data = engine.get_trajectory_data(
             st.session_state.active_signalment, 
             st.session_state.active_findings
         )
         
-        # 1. Convert to Pandas DataFrame
         df = pd.DataFrame(trajectory_data)
-        
-        # 2. "Melt" the dataframe into a long format so Altair can plot multiple lines easily
         df_melted = df.melt(id_vars=["Step"], var_name="Disease", value_name="Probability")
         
-        # 3. Build a custom Altair chart
         chart = alt.Chart(df_melted).mark_line(point=True).encode(
-            # sort=None is the magic command that forces chronological order
             x=alt.X('Step:N', sort=None, title='Sequential Clinical Findings'), 
             y=alt.Y('Probability:Q', title='Posterior Probability (%)'),
             color=alt.Color('Disease:N', legend=alt.Legend(title=None, orient="bottom")),
-            # Add interactive hover tooltips for better educational use
             tooltip=['Step', 'Disease', alt.Tooltip('Probability:Q', format='.2f')]
         ).properties(
             height=500
         ).interactive()
         
-        # 4. Render the upgraded chart
         st.altair_chart(chart, use_container_width=True)
+
+with tab3:
+    st.header("Disease Database Browser")
+    st.markdown("Audit the underlying clinical data, prior probabilities, and symptom weighting tiers powering the Bayesian engine.")
+    
+    disease_dict = {d["disease_metadata"]["official_name"]: d for d in data.get("diseases", []) if "disease_metadata" in d}
+    selected_db_disease = st.selectbox("Select a Disease Record to View:", options=list(disease_dict.keys()))
+    
+    if selected_db_disease:
+        db_data = disease_dict[selected_db_disease]
+        meta = db_data.get("disease_metadata", {})
+        
+        st.subheader(meta.get("official_name", "Unknown"))
+        st.caption(f"Citation: {meta.get('textbook_source_chapter_or_citation', 'N/A')}")
+        
+        c1, c2, c3 = st.columns(3)
+        with c1:
+            prevalence = meta.get('estimated_population_base_prevalence')
+            prev_display = f"{prevalence * 100:.2f}%" if isinstance(prevalence, (int, float)) else "Missing"
+            st.metric("Base Prevalence (Prior)", prev_display)
+        with c2:
+            st.metric("Primary Species", meta.get('primary_species', 'N/A').title())
+        with c3:
+            st.metric("Internal ID", meta.get('disease_id', 'N/A'))
+
+        st.divider()
+
+        st.markdown("### Signalment Risk Multipliers")
+        st.caption("Baseline risk is 1.0. Values > 1.0 indicate predisposition; values < 1.0 indicate reduced risk.")
+        
+        sig = db_data.get("signalment_risk_multipliers", {})
+        
+        sc1, sc2, sc3 = st.columns(3)
+        with sc1:
+            st.markdown("**Age Brackets**")
+            for age, mult in sig.get("age_brackets", {}).items():
+                st.write(f"* {age.replace('_', ' ').title()}: `{mult}x`")
+        with sc2:
+            st.markdown("**Biological Sex**")
+            for sex, mult in sig.get("biological_sex_and_status", {}).items():
+                st.write(f"* {sex.replace('_', ' ').title()}: `{mult}x`")
+        with sc3:
+            st.markdown("**Predisposed Breeds**")
+            breeds = sig.get("predisposed_breeds", {})
+            clean_breeds = {k: v for k, v in breeds.items() if k != "instructional_note"}
+            for breed, mult in clean_breeds.items():
+                if breed != "default_all_other_breeds":
+                    st.write(f"* {breed.replace('_', ' ').title()}: `{mult}x`")
+
+        st.divider()
+
+        st.markdown("### Clinical Findings & Lab Abnormalities")
+        st.caption("Categorized by textbook frequency. These tiers determine the Bayesian likelihood penalties/rewards.")
+        
+        symptoms = db_data.get("clinical_history_and_physical_exam_symptoms", {})
+        labs = db_data.get("routine_laboratory_abnormalities_cbc_chem_ua", {})
+        
+        tc1, tc2, tc3 = st.columns(3)
+        
+        def render_tier(col_title, tier_key, dict1, dict2):
+            items = []
+            if isinstance(dict1.get(tier_key), list): items.extend(dict1[tier_key])
+            if isinstance(dict2.get(tier_key), list): items.extend(dict2[tier_key])
+            
+            st.markdown(f"**{col_title}**")
+            if items:
+                for item in items:
+                    st.write(f"* {item.replace('_', ' ').title()}")
+            else:
+                st.write("*None listed*")
+
+        with tc1:
+            render_tier("Classic (60-100%)", "common_tier_60_to_100_percent_occurrence", symptoms, labs)
+        with tc2:
+            render_tier("Expected (20-59%)", "less_common_tier_20_to_59_percent_occurrence", symptoms, labs)
+        with tc3:
+            render_tier("Possible (1-19%)", "uncommon_or_rare_tier_1_to_19_percent_occurrence", symptoms, labs)
+
+        st.divider()
+
+        st.markdown("### Specific Confirmatory Diagnostics")
+        tests = db_data.get("specific_confirmatory_diagnostic_tests", [])
+        
+        if tests:
+            for test in tests:
+                with st.expander(f"Test: {test.get('test_name', 'Unnamed Test')}"):
+                    st.write(f"**Sensitivity:** {test.get('test_sensitivity_decimal', 'N/A')} | **Specificity:** {test.get('test_specificity_decimal', 'N/A')}")
+                    st.markdown("**Diagnostic Criteria:**")
+                    st.write(test.get('textbook_diagnostic_criteria_summary', 'No criteria provided.'))
+        else:
+            st.info("No specific confirmatory tests listed for this disease.")

@@ -1,0 +1,21 @@
+# --- Streamlit Secrets (CRITICAL) ---
+.streamlit/secrets.toml
+
+# --- Virtual Environments ---
+venv/
+env/
+.env
+
+# --- Python Cache / Junk Files ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# --- OS Generated Files ---
+.DS_Store
+Thumbs.db
+
+# --- IDE / Editor Folders ---
+.vscode/
+.idea/
