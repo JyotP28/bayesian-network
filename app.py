@@ -7,8 +7,8 @@ import altair as alt
 import google.generativeai as genai
 from engine import VetBayesianEngine
 
-st.set_page_config(page_title="Vet Diagnostic Simulator", layout="wide")
-st.title("Veterinary Bayesian Diagnostic Simulator")
+st.set_page_config(page_title="Vet Bayesian Network", layout="wide")
+st.title("Veterinary Bayesian Network Prototype")
 
 try:
     api_key = st.secrets["GEMINI_API_KEY"]
