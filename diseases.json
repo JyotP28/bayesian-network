@@ -6,7 +6,7 @@
         "official_name": "Hyperadrenocorticism",
         "primary_species": "canine",
         "estimated_population_base_prevalence": 0.0025,
-        "textbook_source_chapter_or_citation": "Chapter 293: THE HISTORY OF HYPERADRENOCORTICISM AND DEFINITIONS"
+        "textbook_source_chapter_or_citation": "Ettinger's Textbook of Veterinary Internal Medicine Chapter 293: THE HISTORY OF HYPERADRENOCORTICISM AND DEFINITIONS"
       },
       "signalment_risk_multipliers": {
         "age_brackets": {
@@ -142,7 +142,7 @@
         "official_name": "Diabetes Mellitus",
         "primary_species": "canine",
         "estimated_population_base_prevalence": 0.003,
-        "textbook_source_chapter_or_citation": "Fracassi F., Chapter 291: Diabetes Mellitus in Dogs"
+        "textbook_source_chapter_or_citation": "Ettinger's Textbook of Veterinary Internal Medicine Chapter 291: Diabetes Mellitus in Dogs"
       },
       "signalment_risk_multipliers": {
         "instructional_note": "1.0 is baseline risk. Scale up for predispositions, scale down for low risk. All unspecified items default to 1.0.",
@@ -258,7 +258,7 @@
     "official_name": "Hypoadrenocorticism (Addison's disease)",
     "primary_species": "canine",
     "estimated_population_base_prevalence": 0.00023,
-    "textbook_source_chapter_or_citation": "Chapter 296 hypoadrenocorticism"
+    "textbook_source_chapter_or_citation": "Ettinger's Textbook of Veterinary Internal Medicine Chapter 296 hypoadrenocorticism"
   },
   "signalment_risk_multipliers": {
     "instructional_note": "1.0 is baseline risk. Scale up for predispositions, scale down for low risk. All unspecified items default to 1.0.",

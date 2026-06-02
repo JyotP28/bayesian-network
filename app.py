@@ -162,10 +162,10 @@ def render_results(results):
                 st.latex(rf"\text{{Posterior}} = \frac{{\text{{Raw Score}}}}{{\text{{Sum of All Raw Scores}} ({trace['total_weight']:.4e})}} = {match_pct / 100:.4f} \approx {diff['posterior_probability']}")
 
 # --- UI TABS ---
-tab1, tab2, tab3 = st.tabs(["AI Case Parser", "Bayesian Trajectory", "Database Browser"])
+tab1, tab2, tab3 = st.tabs(["Case Parser", "Bayesian Trajectory", "Database Browser"])
 
 with tab1:
-    st.markdown("Paste raw clinical notes, lab results, or textbook cases here.")
+    st.markdown("Paste raw clinical notes, lab results, or textbook cases here. Using Gemini-Flash-3.1, your raw case input will be formatted into JSON to allow our program to utilize the necessary information")
     case_text = st.text_area("Raw Case Input", height=200, placeholder="CASE 1\nSignalment: 10 yr old, CM, Miniature poodle\nHistory: Presented for teeth cleaning...\nAbnormalities: WBC 18.1, ALP 578...")
     
     if st.button("Parse & Run Diagnostics", type="primary", key="parse_btn"):
@@ -190,7 +190,7 @@ with tab2:
     st.markdown("Watch the Bayesian network update its confidence sequentially as each clinical sign is evaluated. This mimics the cognitive shift a clinician experiences as new data arrives.")
     
     if st.session_state.active_findings is None:
-        st.info("Run a case in the AI Parser tab to view the diagnostic trajectory.")
+        st.info("Run a case in the Parser tab to view the diagnostic trajectory.")
     else:
         trajectory_data = engine.get_trajectory_data(
             st.session_state.active_signalment, 
