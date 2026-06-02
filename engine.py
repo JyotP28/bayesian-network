@@ -1,3 +1,4 @@
+
 import json
 import math
 
@@ -13,7 +14,7 @@ class VetBayesianEngine:
         }
         self.background_noise = 0.10
 
-        # --- ONTOLOGY MAPPER: EQUIVALENCE GROUPS ---
+        # demo of the ontology mapping
         self.concept_groups = [
             {"weight_loss", "underweight", "poor_muscle_mass", "cachexia"},
             {"abnormal_appetite", "polyphagia", "inappetence", "anorexia", "decreased_appetite"},
@@ -23,7 +24,7 @@ class VetBayesianEngine:
             {"urine_specific_gravity_less_than_1_020", "decreased_urine_specific_gravity", "isosthenuria"}
         ]
         
-        # Build fast lookup dictionary: term -> tuple(equivalent_terms)
+        # fast look-up dictionary
         self.synonym_map = {}
         for group in self.concept_groups:
             group_tuple = tuple(sorted(group)) 
@@ -48,7 +49,7 @@ class VetBayesianEngine:
             breed_mult = sig_mults.get("predisposed_breeds", {}).get(patient_signalment.get('breed'), 
                             sig_mults.get("predisposed_breeds", {}).get("default_all_other_breeds", 1.0))
             
-            # CRITICAL FIX: Handle missing textbook prevalence data gracefully
+            # handle missing textbook data and information
             if not isinstance(p_disease, (int, float)):
                 adjusted_prior = 1.0
                 trace_base_prevalence = "Missing (Forced 1.0)"
@@ -159,7 +160,7 @@ class VetBayesianEngine:
             normalized_prob = (diagnostics["raw_score"] / total_posterior_weight) if total_posterior_weight > 0 else 0.0
             diagnostics["math_trace"]["total_weight"] = total_posterior_weight
             
-            # Safeguard for missing pre-test probabilities for the UI display
+            # safeguard for missing pre-test probabilities for the UI display
             pre_test_display = f"{diagnostics['pre_test'] * 100:.2f}%" if isinstance(diagnostics['pre_test'], (int, float)) else "Unknown"
 
             differential_list.append({
@@ -180,7 +181,7 @@ class VetBayesianEngine:
         """Calculates the posterior probability step-by-step for visualization."""
         state = []
         
-        # 1. Initialize Baseline
+        # initialize Baseline
         for disease in self.data["diseases"]:
             if "disease_metadata" not in disease: continue
             meta = disease["disease_metadata"]
@@ -231,7 +232,7 @@ class VetBayesianEngine:
 
         _record_step("Baseline (Signalment)")
 
-        # 2. Process Findings Sequentially
+        # process teh findings sequentially
         for finding in active_findings:
             eq_group = self.synonym_map.get(finding, (finding,))
             

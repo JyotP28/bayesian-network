@@ -1,3 +1,4 @@
+
 import streamlit as st
 import pandas as pd
 import json
@@ -9,7 +10,6 @@ from engine import VetBayesianEngine
 st.set_page_config(page_title="Vet Diagnostic Simulator", layout="wide")
 st.title("Veterinary Bayesian Diagnostic Simulator")
 
-# --- CONFIGURE GEMINI API ---
 try:
     api_key = st.secrets["GEMINI_API_KEY"]
     genai.configure(api_key=api_key)
@@ -17,7 +17,7 @@ except KeyError:
     st.error("Missing API Key. Please add GEMINI_API_KEY to your .streamlit/secrets.toml file.")
     st.stop()
 
-# --- LOAD DATA & ENGINE ---
+# loads the data and the engine
 @st.cache_data
 def load_data():
     with open('diseases.json', 'r') as f: return json.load(f)
@@ -42,7 +42,7 @@ for d in data.get("diseases", []):
 all_findings = sorted(list(all_findings))
 all_breeds = sorted(list(all_breeds))
 
-# --- SESSION STATE INITIALIZATION ---
+# initializes session state
 if "active_signalment" not in st.session_state:
     st.session_state.active_signalment = None
 if "active_findings" not in st.session_state:
@@ -50,7 +50,7 @@ if "active_findings" not in st.session_state:
 if "active_results" not in st.session_state:
     st.session_state.active_results = None
 
-# --- LIVE GEMINI API FUNCTION ---
+# gemini instructions
 def extract_case_with_ai(case_text, allowed_breeds, allowed_findings):
     if not api_key:
         st.error("Please enter your Gemini API key in the sidebar.")
@@ -92,7 +92,7 @@ def extract_case_with_ai(case_text, allowed_breeds, allowed_findings):
         st.error(f"Failed to parse with Gemini: {e}")
         st.stop()
 
-# --- UI RENDER HELPER ---
+# render the UI
 def render_results(results):
     st.subheader("Ranked Differentials & Clinical Reasoning")
     for diff in results:
@@ -161,7 +161,7 @@ def render_results(results):
                 st.latex(rf"\text{{Raw Score}} = \text{{Prior}} \times \text{{Likelihood}} = {trace['raw_score']:.4e}")
                 st.latex(rf"\text{{Posterior}} = \frac{{\text{{Raw Score}}}}{{\text{{Sum of All Raw Scores}} ({trace['total_weight']:.4e})}} = {match_pct / 100:.4f} \approx {diff['posterior_probability']}")
 
-# --- UI TABS ---
+# UI Tabs
 tab1, tab2, tab3 = st.tabs(["Case Parser", "Bayesian Trajectory", "Database Browser"])
 
 with tab1:
