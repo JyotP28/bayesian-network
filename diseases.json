@@ -41,7 +41,8 @@
           "muscle_weakness",
           "systemic_hypertension",
           "lethargy",
-          "urinary_tract_infections"
+          "urinary_tract_infections",
+          "increased_alt"
         ],
         "less_common_tier_20_to_59_percent_occurrence": [
           "hyperpigmentation",
